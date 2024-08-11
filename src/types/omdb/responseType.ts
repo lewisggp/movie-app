@@ -3,6 +3,20 @@ interface Ratings {
     Value: string;
 }
 
+export interface OMDBSeasonResponse {
+    Title: string;
+    Season: string;
+    totalSeasons: string;
+    Episodes: {
+        Title: string;
+        Released: string;
+        Episode: string;
+        imdbRating: string;
+        imdbID: string;
+    }[];
+    Response: string;
+}
+
 export interface OMDBTitleResponse {
     Title: string;
     Year: string;
@@ -24,6 +38,7 @@ export interface OMDBTitleResponse {
     imdbVotes: string;
     imdbID: string;
     Type: 'movie' | 'series' | 'episode';
+    totalSeasons?: number;
     DVD?: string;
     BoxOffice?: string;
     Production?: string;
@@ -39,3 +54,4 @@ export interface OMDBSearchResponse {
     Type: 'movie' | 'series' | 'episode';
     Poster: string;
 }
+

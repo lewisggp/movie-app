@@ -3,14 +3,17 @@ import React from 'react';
 
 // MUI Imports
 import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
 import Fade from '@mui/material/Fade';
 
 // Types Imports
 import { OMDBTitleResponse } from '@/types/omdb/responseType';
+
+// Components Imports
+import EpisodesList from './EpisodesList';
+import MovieCardContent from './MovieCardContent';
+import MovieCardMedia from './MovieCardMedia';
 
 interface MovieDialogProps {
   open: boolean;
@@ -21,7 +24,13 @@ interface MovieDialogProps {
 
 const MovieDialog: React.FC<MovieDialogProps> = ({ open, movie, onClose, loading }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      scroll={'body'}
+    >
       {/* Loading Fade */}
       <Fade in={loading} timeout={{ enter: 300, exit: 300 }}>
         <Box
@@ -46,82 +55,31 @@ const MovieDialog: React.FC<MovieDialogProps> = ({ open, movie, onClose, loading
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            height: '600px',
+            height: 'auto',
+            overflowY: 'auto',
           }}
         >
-          <Box
-            sx={{
-              position: 'relative',
-              height: '350px',
-              overflow: 'hidden',
-            }}
-          >
-            <img
-              src={movie?.Poster !== 'N/A' ? movie?.Poster : '/no-image-available.jpg'}
-              alt={movie?.Title}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-              }}
-            />
-            <Box
-              sx={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: '100px',
-                background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.7))',
-              }}
-            />
-          </Box>
+          {/* Movie Content */}
+          <MovieCardMedia movie={movie} />
 
+          {/* Movie Details and Episodes */}
           <Box
             sx={{
               flexGrow: 1,
+              display: 'flex',
+              flexDirection: 'column',
               padding: 2,
               backgroundColor: 'background.paper',
               overflowY: 'auto',
             }}
           >
-            <Grid container spacing={2}>
-              {/* Primera Columna */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="secondary">
-                  {movie?.Year} - {movie?.imdbRating}/10
-                </Typography>
-                <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: 1 }}>
-                  {movie?.Title}
-                </Typography>
-                <Typography variant="body1" sx={{ marginTop: 2 }}>
-                  {movie?.Plot}
-                </Typography>
-              </Grid>
-
-              {/* Segunda Columna */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body2" color="textSecondary">
-                  <strong>Genre: </strong>
-                  <span style={{ color: '#fff' }}>{movie?.Genre}</span>
-                </Typography>
-                <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
-                  <strong>Director: </strong>
-                  <span style={{ color: '#fff' }}>{movie?.Director}</span>
-                </Typography>
-                <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
-                  <strong>Writer: </strong>
-                  <span style={{ color: '#fff' }}>{movie?.Writer}</span>
-                </Typography>
-                <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
-                  <strong>Actors: </strong>
-                  <span style={{ color: '#fff' }}>{movie?.Actors}</span>
-                </Typography>
-              </Grid>
-            </Grid>
+            <MovieCardContent movie={movie} />
+            {/* Episodes List */}
+            {movie?.Type === 'series' && (
+              <Box sx={{ mt: 2 }}>
+                <EpisodesList seriesId={movie?.imdbID || ''} totalSeasons={movie?.totalSeasons || 0} />
+              </Box>
+            )}
           </Box>
         </Box>
       </Fade>

@@ -38,7 +38,7 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch }) => {
   }, []);
 
   const handleSearch = () => {
-    const fullQuery = genre ? `${query} ${genre}` : query;
+    const fullQuery = genre ? `query} ${genre}` : query;
     const yearString = year ? year.getFullYear().toString() : '';
 
     if (!fullQuery.trim()) {

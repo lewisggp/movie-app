@@ -5,7 +5,7 @@ import axios from 'axios'
 
 // Types Imports
 import type { OMDBSearchRequest, OMDBTitleRequest } from '@/types/omdb/requestType'
-import type { OMDBSearchResponse, OMDBTitleResponse } from '@/types/omdb/responseType'
+import type { OMDBSearchResponse, OMDBSeasonResponse, OMDBTitleResponse } from '@/types/omdb/responseType'
 
 const api = axios.create({
   baseURL: `${process.env.OMDB_API_URL}`,
@@ -79,6 +79,22 @@ export const searchMovies = async (request: OMDBSearchRequest): Promise<OMDBSear
     console.error('Error searching movies:', error);
     
     throw new Error('Error searching movies');
+  }
+};
+
+export const fetchSeason = async (request: OMDBTitleRequest, season: string): Promise<OMDBSeasonResponse> => {
+  try {
+    const response = await api.get<OMDBSeasonResponse>('/', { params: {
+      apiKey: `${process.env.OMDB_API_KEY}`,
+      ...request,
+      season
+    }});
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching movie details:', error);
+    
+    throw new Error('Error fetching movie details');
   }
 };
 
