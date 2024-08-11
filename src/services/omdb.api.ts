@@ -81,3 +81,21 @@ export const searchMovies = async (request: OMDBSearchRequest): Promise<OMDBSear
     throw new Error('Error searching movies');
   }
 };
+
+export const fetchGenres = async () => {
+  return new Promise<string[]>((resolve) => {
+    setTimeout(() => {
+      resolve([
+        'Action',
+        'Comedy',
+        'Drama',
+        'Fantasy',
+        'Horror',
+        'Romance',
+        'Sci-Fi',
+        'Thriller',
+        'Western',
+      ]);
+    }, 500);
+  });
+};
