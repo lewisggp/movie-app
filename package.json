@@ -9,16 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
     "@iconify/iconify": "^3.1.1",
+    "@iconify/icons-mdi": "^1.2.48",
     "@iconify/json": "^2.2.235",
+    "@iconify/react": "^5.0.2",
     "@iconify/tools": "^4.0.4",
     "@iconify/types": "^2.0.0",
     "@iconify/utils": "^2.1.30",
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
     "@mui/material-nextjs": "^5.16.6",
+    "date-fns": "^3.6.0",
     "next": "14.2.5",
     "react": "^18",
+    "react-datepicker": "^7.3.0",
     "react-dom": "^18",
     "react-toastify": "^10.0.5"
   },
