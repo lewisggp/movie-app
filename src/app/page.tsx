@@ -1,6 +1,38 @@
-import Image from "next/image";
+'use client'
+
+// React Imports
+import { useEffect, useState } from 'react';
+
+// Next Imports
+import Image from 'next/image';
+
+// Types Imports
+import { OMDBSearchRequest } from '@/types/omdb/requestType';
+import { OMDBSearchResponse } from '@/types/omdb/responseType';
+
+// API Imports
+import { searchMovies } from '@/services/omdb.api';
 
 export default function Home() {
+  // States
+  const [error, setError] = useState<string | null>(null);
+  const [searchResults, setSearchResults] = useState<OMDBSearchResponse[]>([]);
+
+  useEffect(() => {
+    const searchForMovies = async () => {
+      try {
+        const request: OMDBSearchRequest = { s: 'Guardians of the Galaxy' };
+        const results = await searchMovies(request);
+
+        setSearchResults(results);
+      } catch (err) {
+        setError('Failed to search for movies');
+      }
+    };
+
+    searchForMovies();
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -107,6 +139,25 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
+      </div>
+      <div className="mt-8">
+        {error && <p className="text-red-500">Error: {error}</p>}
+        <h2 className="text-2xl font-semibold mb-4">Search Results:</h2>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {searchResults.map(result => (
+            <li key={result.imdbID} className="border rounded-lg p-4">
+              <Image
+                src={result.Poster}
+                alt={result.Title}
+                width={150}
+                height={225}
+                className="object-cover w-36 h-56"
+              />
+              <h3 className="text-lg font-semibold mt-2">{result.Title}</h3>
+              <p>{result.Year}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </main>
   );
