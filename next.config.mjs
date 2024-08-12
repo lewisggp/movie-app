@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    redirects: async () => {
+        return [
+            {
+                source: '/',
+                destination: '/omdb',
+                permanent: false,
+            },
+        ];
+    },
     reactStrictMode: true,
     swcMinify: true,
     webpack: (config, context) => {
