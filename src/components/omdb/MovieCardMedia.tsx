@@ -71,7 +71,7 @@ const MovieCardMedia: React.FC<MovieCardMediaProps> = ({ movie }) => {
           zIndex: 3,
         }}
       >
-        <Badge>{movie.imdbRating}/10</Badge>
+        {movie.imdbRating && movie.imdbRating !== 'N/A' && ( <Badge>{movie.imdbRating}/10</Badge>) }
         <Badge sx={{ textTransform: 'uppercase' }}>{movie.Type}</Badge>
       </Box>
     </Box>

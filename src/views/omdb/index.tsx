@@ -33,16 +33,17 @@ export default function OMDBMovieList() {
 
   const fetchMovies = async (query: string, genre?: string, year?: Date, page: number = 1) => {
     setLoading(true);
+    const fullQuery = query ? query : genre || '';
     const yearString = year ? year.getFullYear().toString() : '';
 
     try {
-      const request: OMDBSearchRequest = { s: query, page: String(page) }; // API Doesnt support genre param :(
+      const request: OMDBSearchRequest = { s: fullQuery, page: String(page) }; // API Doesnt support genre param :(
       if (yearString) request.y = yearString;
 
       const response = await searchMovies(request);
 
       if (response.Response === "True" && Array.isArray(response.Search)) {
-        let filteredResults: OMDBMovieResponse[] = []
+        let filteredResults: OMDBMovieResponse[] = response.Search
 
         if (genre) {
           // Unfortunately, 
@@ -62,7 +63,7 @@ export default function OMDBMovieList() {
           filteredResults = movieDetails.filter(movie => movie.Genre && movie.Genre.split(", ").includes(genre));
         }
 
-        if (page === 1) {
+        if (page == 1) {
           setSearchResults(filteredResults);
         } else {
           setSearchResults(prevResults => [...prevResults, ...filteredResults]);
@@ -86,8 +87,9 @@ export default function OMDBMovieList() {
 
   const handleScroll = useCallback(() => {
     if (loading || !hasMore) return;
-
-    const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
+  
+    const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
+  
     if (bottom) {
       setPage(prevPage => {
         const newPage = prevPage + 1;
@@ -95,7 +97,7 @@ export default function OMDBMovieList() {
         return newPage;
       });
     }
-  }, [loading, hasMore, query, year]);
+  }, [loading, hasMore, query, genre, year]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);

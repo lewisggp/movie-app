@@ -47,9 +47,11 @@ const MovieCardContent: React.FC<MovieContentProps> = ({ movie }) => {
         <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: 1 }}>
           {movie?.Title}
         </Typography>
-        <Typography variant="body1" sx={{ marginTop: 2 }}>
-          {movie?.Plot}
-        </Typography>
+        {movie.Plot && movie.Plot !== 'N/A' && (
+          <Typography variant="body1" sx={{ marginTop: 2 }}>
+            {movie.Plot}
+          </Typography>
+        )}
       </Grid>
 
       {/* Second Column */}
