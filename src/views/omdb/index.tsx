@@ -8,7 +8,7 @@ import type { OMDBSearchRequest } from '@/types/omdb/requestType';
 import type { OMDBMovieResponse } from '@/types/omdb/responseType';
 
 // API Imports
-import { searchMovies } from '@/services/omdb.api';
+import { fetchMovie, searchMovies } from '@/services/omdb.api';
 
 // Component Imports
 import MovieList from '@/components/omdb/MovieList';
@@ -33,22 +33,41 @@ export default function OMDBMovieList() {
 
   const fetchMovies = async (query: string, genre?: string, year?: Date, page: number = 1) => {
     setLoading(true);
-    const fullQuery = genre ? `${query} ${genre}` : query;
     const yearString = year ? year.getFullYear().toString() : '';
 
     try {
-      const request: OMDBSearchRequest = { s: fullQuery, page: String(page) };
+      const request: OMDBSearchRequest = { s: query, page: String(page) }; // API Doesnt support genre param :(
       if (yearString) request.y = yearString;
 
       const response = await searchMovies(request);
 
       if (response.Response === "True" && Array.isArray(response.Search)) {
-        if (page === 1) {
-          setSearchResults(response.Search);
-        } else {
-          setSearchResults(prevResults => [...prevResults, ...response.Search]);
+        let filteredResults: OMDBMovieResponse[] = []
+
+        if (genre) {
+          // Unfortunately, 
+          // the OMDB API no soporta la busqueda por genero en sus parametres
+          // Additionally, the search response type does not contain the genres of each result, 
+          // so we have to fetch each result and compare if it contains the searched genre.
+          // This is not optimal at all.
+          // Maybe it would be better to change the API.
+
+          const movieDetailsPromises = response.Search.map(async (movie) => {
+            const details = await fetchMovie({i: movie.imdbID});
+            return details;
+          });
+
+          const movieDetails = await Promise.all(movieDetailsPromises);
+
+          filteredResults = movieDetails.filter(movie => movie.Genre && movie.Genre.split(", ").includes(genre));
         }
-        setHasMore(response.Search.length > 0);
+
+        if (page === 1) {
+          setSearchResults(filteredResults);
+        } else {
+          setSearchResults(prevResults => [...prevResults, ...filteredResults]);
+        }
+        setHasMore(filteredResults.length > 0);
       } else {
         setHasMore(false);
       }
@@ -59,6 +78,11 @@ export default function OMDBMovieList() {
       setLoading(false);
     }
   };
+
+  const handleSearch = (query: string, genre?: string, year?: Date) => {
+    setSearchResults([])
+    fetchMovies(query, genre, year)
+  }
 
   const handleScroll = useCallback(() => {
     if (loading || !hasMore) return;
@@ -92,7 +116,7 @@ export default function OMDBMovieList() {
         pt: 14,
       }}
     >
-      <Header title="OMDB Movies" onSearch={fetchMovies} />
+      <Header title="OMDB Movies" onSearch={handleSearch} />
       {loading && !searchResults.length ? (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
           <CircularProgress />
