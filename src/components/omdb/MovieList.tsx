@@ -51,16 +51,12 @@ export default function MovieList({ searchResults }: ListProps) {
         textAlign: 'center',
       }}
     >
-      {searchResults && searchResults.length > 0 ? (
+      {searchResults && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {searchResults.map(result => (
             <MovieCard key={result.imdbID} movie={result} onClick={handleMovieClick} />
           ))}
         </div>
-      ) : (
-        <Typography variant="h6" color="textSecondary">
-          No results found
-        </Typography>
       )}
 
       <MovieDialog

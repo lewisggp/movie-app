@@ -1,6 +1,9 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
 
+// Next Imports
+import { useRouter } from 'next/navigation';
+
 // MUI Imports
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -21,13 +24,20 @@ import { useSearch } from '@/contexts/searchProvider';
 // API Imports
 import { fetchGenres } from '@/services/omdb.api';
 
-interface MovieSearchProps {
-  onSearch: (query: string, genre?: string, year?: Date) => void;
-}
+const MovieSearch: React.FC = () => {
+  // Hooks
+  const router = useRouter();
 
-const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch }) => {
-  const { query, setQuery, genre, setGenre, year, setYear, clearAll } = useSearch();
+  // States
   const [genres, setGenres] = useState<string[]>([]);
+
+  // Contexts
+  const { 
+    query, setQuery, 
+    genre, setGenre, 
+    year, setYear, 
+    clearAll, setSearchInitiated 
+  } = useSearch();
 
   useEffect(() => {
     const loadGenres = async () => {
@@ -38,13 +48,19 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch }) => {
     loadGenres();
   }, []);
 
+  const handleClear = () => {
+    clearAll()
+    router.push(`/omdb`);
+  };
+
   const handleSearch = () => {
     if (!query.trim() && !genre) {
       toast.error('Please enter a valid query');
       return;
     }
 
-    onSearch(query, genre, year || undefined);
+    setSearchInitiated(true);
+    router.push(`/omdb/search`);
   };
 
   return (
@@ -97,7 +113,7 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch }) => {
       <Button
         variant="outlined"
         color="secondary"
-        onClick={clearAll}
+        onClick={handleClear}
         sx={{ height: '56px', minWidth: 90 }}
       >
         Clear All

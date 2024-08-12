@@ -16,6 +16,8 @@ interface SearchContextType {
   type: string;
   setType: (type: string) => void;
   clearAll: () => void;
+  searchInitiated: boolean;
+  setSearchInitiated: (value: boolean) => void;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -25,17 +27,26 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [genre, setGenre] = useState<string>('');
   const [year, setYear] = useState<Date | null>(null);
   const [type, setType] = useState<string>('');
+  const [searchInitiated, setSearchInitiated] = useState<boolean>(false);
 
   const clearAll = () => {
     setQuery('');
     setGenre('');
     setYear(null);
     setType('');
+    setSearchInitiated(false);
   };
 
   return (
     <SearchContext.Provider
-      value={{ query, setQuery, genre, setGenre, year, setYear, type, setType, clearAll }}
+      value={{ 
+        query, setQuery, 
+        genre, setGenre, 
+        year, setYear, 
+        type, setType, 
+        clearAll, 
+        searchInitiated, setSearchInitiated 
+      }}
     >
       {children}
     </SearchContext.Provider>

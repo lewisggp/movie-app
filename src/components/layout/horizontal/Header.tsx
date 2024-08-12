@@ -44,14 +44,13 @@ const Title = styled(Typography)(({ theme }) => ({
 
 interface HeaderProps {
   title: string;
-  onSearch: (query: string, genre?: string, year?: Date) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, onSearch }) => {
+const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
     <StyledHeader>
       <Title variant="h1">{title}</Title>
-      <MovieSearch onSearch={onSearch} />
+      <MovieSearch />
     </StyledHeader>
   );
 };
