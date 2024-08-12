@@ -15,17 +15,18 @@ import { toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+// Contexts
+import { useSearch } from '@/contexts/searchProvider';
+
 // API Imports
 import { fetchGenres } from '@/services/omdb.api';
 
 interface MovieSearchProps {
-  onSearch: (query: string, year?: string) => void;
+  onSearch: (query: string, genre?: string, year?: Date) => void;
 }
 
 const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch }) => {
-  const [query, setQuery] = useState('');
-  const [year, setYear] = useState<Date | null>(null);
-  const [genre, setGenre] = useState('');
+  const { query, setQuery, genre, setGenre, year, setYear, clearAll } = useSearch();
   const [genres, setGenres] = useState<string[]>([]);
 
   useEffect(() => {
@@ -38,21 +39,12 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch }) => {
   }, []);
 
   const handleSearch = () => {
-    const fullQuery = genre ? `query} ${genre}` : query;
-    const yearString = year ? year.getFullYear().toString() : '';
-
-    if (!fullQuery.trim()) {
+    if (!query.trim() && !genre) {
       toast.error('Please enter a valid query');
       return;
     }
 
-    onSearch(fullQuery, yearString);
-  };
-
-  const handleClearAll = () => {
-    setQuery('');
-    setYear(null);
-    setGenre('');
+    onSearch(query, genre, year || undefined);
   };
 
   return (
@@ -100,14 +92,12 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch }) => {
           customInput={<TextField label="Year" fullWidth sx={{ maxWidth: 90, height: '56px' }} />}
           yearItemNumber={12}
           scrollableYearDropdown
-          wrapperClassName="react-datepicker-wrapper"
-          calendarClassName="react-datepicker-calendar"
         />
       </Box>
       <Button
         variant="outlined"
         color="secondary"
-        onClick={handleClearAll}
+        onClick={clearAll}
         sx={{ height: '56px', minWidth: 90 }}
       >
         Clear All
