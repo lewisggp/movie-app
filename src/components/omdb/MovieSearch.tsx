@@ -23,6 +23,7 @@ import { useSearch } from '@/contexts/searchProvider';
 
 // API Imports
 import { fetchGenres } from '@/services/omdb.api';
+import AppReactDatepicker from '@/libs/styles/AppReactDatepicker';
 
 const MovieSearch: React.FC = () => {
   // Hooks
@@ -79,7 +80,7 @@ const MovieSearch: React.FC = () => {
         variant="outlined"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        sx={{ flexGrow: 1, maxWidth: 90, height: '56px' }}
+        sx={{ flexGrow: 1, maxWidth: 250, height: '56px' }}
       />
       <FormControl variant="outlined" sx={{ minWidth: 90 }}>
         <InputLabel>Genre</InputLabel>
@@ -99,17 +100,15 @@ const MovieSearch: React.FC = () => {
           ))}
         </Select>
       </FormControl>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <DatePicker
-          selected={year}
-          onChange={(date: Date | null) => setYear(date)}
-          showYearPicker
-          dateFormat="yyyy"
-          customInput={<TextField label="Year" fullWidth sx={{ maxWidth: 90, height: '56px' }} />}
-          yearItemNumber={12}
-          scrollableYearDropdown
-        />
-      </Box>
+      <AppReactDatepicker
+        isClearable
+        selected={year}
+        onChange={(date: Date | null) => setYear(date)}
+        showYearPicker
+        dateFormat="yyyy"
+        customInput={<TextField label='Year' fullWidth sx={{ maxWidth: 90 }} />}
+        yearItemNumber={12}
+      />
       <Button
         variant="outlined"
         color="secondary"
