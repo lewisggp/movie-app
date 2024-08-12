@@ -11,8 +11,9 @@ import type { OMDBMovieResponse } from '@/types/omdb/responseType';
 import { fetchMovie, searchMovies } from '@/services/omdb.api';
 
 // Component Imports
-import MovieList from '@/components/omdb/MovieList';
 import Header from '@/components/layout/horizontal/Header';
+import MovieList from '@/components/omdb/MovieList';
+import MovieSuggestions from '@/components/omdb/MovieSuggestions';
 
 // MUI Imports
 import Box from '@mui/material/Box';
@@ -119,22 +120,53 @@ export default function OMDBMovieList() {
       }}
     >
       <Header title="OMDB Movies" onSearch={handleSearch} />
-      {loading && !searchResults.length ? (
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
-          <CircularProgress />
+      {searchResults.length === 0 && !loading && !error ? (
+        <>
+        <Box
+          sx={{
+            width: '100%',
+            backgroundColor: 'secondary.main',
+            padding: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            mt: 4,
+            boxShadow: 'inset 0px -4px 6px rgba(0, 0, 0, 0.5)', 
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              color: 'white',
+              fontWeight: 'bold',
+              textAlign: 'left',
+            }}
+          >
+            Secciones Recomendadas
+          </Typography>
         </Box>
+        <MovieSuggestions />
+        </>
       ) : (
         <>
-          {error && (
-            <Typography variant="body1" color="error" gutterBottom>
-              Error: {error}
-            </Typography>
-          )}
-          <MovieList searchResults={searchResults} />
-          {loading && hasMore && (
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 3 }}>
+          {loading && !searchResults.length ? (
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
               <CircularProgress />
             </Box>
+          ) : (
+            <>
+              {error && (
+                <Typography variant="body1" color="error" gutterBottom>
+                  Error: {error}
+                </Typography>
+              )}
+              <MovieList searchResults={searchResults} />
+              {loading && hasMore && (
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 3 }}>
+                  <CircularProgress />
+                </Box>
+              )}
+            </>
           )}
         </>
       )}

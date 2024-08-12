@@ -11,14 +11,20 @@ import type { OMDBMovieResponse } from '@/types/omdb/responseType';
 interface MovieCardProps {
   movie: OMDBMovieResponse;
   onClick?: (id: string) => void;
+  sx?: any;
 }
 
-export default function MovieCard({ movie, onClick }: MovieCardProps) {
+export default function MovieCard({ movie, onClick, sx }: MovieCardProps) {
   return (
-    <Card 
-      className="group relative border rounded-lg overflow-hidden shadow-lg hover:scale-105"
-      style={{ transition: 'transform 0.3s ease-in-out' }}
+    <Card
+      className="group relative border rounded-lg overflow-hidden shadow-lg transition-transform duration-300 ease-in-out hover:scale-105"
       onClick={() => onClick && onClick(movie.imdbID)}
+      sx={{
+        ':hover': {
+          zIndex: 1,
+        },
+        ...sx,
+      }}
     >
       <Box className="relative w-full h-[450px]">
         <CardMedia
