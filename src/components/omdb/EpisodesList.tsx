@@ -77,7 +77,7 @@ const EpisodesList: React.FC<EpisodesListProps> = ({ seriesId, totalSeasons }) =
     <Box>
       <Box display="flex" alignItems="center" mb={1}>
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
-          Episodes
+          Episodios
         </Typography>
         <Select
           value={selectedSeason}
@@ -87,7 +87,7 @@ const EpisodesList: React.FC<EpisodesListProps> = ({ seriesId, totalSeasons }) =
         >
           {Array.from({ length: totalSeasons }, (_, i) => (
             <MenuItem key={i + 1} value={i + 1}>
-              Season {i + 1}
+              Temporada {i + 1}
             </MenuItem>
           ))}
         </Select>

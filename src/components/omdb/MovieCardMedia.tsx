@@ -27,7 +27,7 @@ const MovieCardMedia: React.FC<MovieCardMediaProps> = ({ movie }) => {
   if (!movie) {
     return (
       <Typography variant="h6" color="textSecondary">
-        No data available
+        Datos no disponibles
       </Typography>
     );
   }

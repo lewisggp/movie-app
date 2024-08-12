@@ -56,7 +56,7 @@ const MovieSearch: React.FC = () => {
 
   const handleSearch = () => {
     if (!query.trim() && !genre) {
-      toast.error('Please enter a valid query');
+      toast.error('Porfavor introduce una palabra o género');
       return;
     }
 
@@ -76,18 +76,18 @@ const MovieSearch: React.FC = () => {
       }}
     >
       <TextField
-        label="Search"
+        label="Buscar"
         variant="outlined"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         sx={{ flexGrow: 1, maxWidth: 250, height: '56px' }}
       />
       <FormControl variant="outlined" sx={{ minWidth: 90 }}>
-        <InputLabel>Genre</InputLabel>
+        <InputLabel>Género</InputLabel>
         <Select
           value={genre}
           onChange={(e) => setGenre(e.target.value)}
-          label="Genre"
+          label="Género"
           sx={{ height: '56px' }}
         >
           <MenuItem value="">
@@ -106,7 +106,7 @@ const MovieSearch: React.FC = () => {
         onChange={(date: Date | null) => setYear(date)}
         showYearPicker
         dateFormat="yyyy"
-        customInput={<TextField label='Year' fullWidth sx={{ maxWidth: 90 }} />}
+        customInput={<TextField label='Año' fullWidth sx={{ maxWidth: 90 }} />}
         yearItemNumber={12}
       />
       <Button

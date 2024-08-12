@@ -15,7 +15,7 @@ export default function OMDBLayout({
 }) {
   return (
     <Providers>
-      <HorizontalLayout header={<Header title="OMDB Movies" />} >
+      <HorizontalLayout header={<Header title="LG Peliculas" />} >
         {children}
       </HorizontalLayout>
     </Providers>

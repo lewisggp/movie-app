@@ -59,14 +59,14 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, index }) => {
       >
         <Box display="flex" justifyContent="space-between">
           <Typography variant="subtitle1" gutterBottom>
-            Episode {index + 1}: {episode.Title}
+            Episodio {index + 1}: {episode.Title}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            {episode.Runtime || 'Unknown Duration'}
+            {episode.Runtime}
           </Typography>
         </Box>
         <Typography variant="body2" color="textSecondary">
-          {episode.Plot !== 'N/A' ? episode.Plot : 'Plot not available.'}
+          {episode.Plot !== 'N/A' ? episode.Plot : 'Descripción no disponible.'}
         </Typography>
       </Box>
     </Box>

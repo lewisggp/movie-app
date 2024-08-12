@@ -121,7 +121,7 @@ export default function OMDBMovieSearch() {
         }}>
             {searchResults.length === 0 && !loading && (
                 <Typography variant="h6" color="textSecondary" sx={{ mt: 4 }}>
-                    No results found
+                    No se encontraron resultados
                 </Typography>
             )}
             <MovieList searchResults={searchResults} />

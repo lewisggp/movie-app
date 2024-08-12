@@ -57,7 +57,7 @@ const MovieCardContent: React.FC<MovieContentProps> = ({ movie }) => {
       {/* Second Column */}
       <Grid item xs={12} sm={4}>
         <Typography variant="body2" color="textSecondary">
-          <strong>Genre: </strong>
+          <strong>Género: </strong>
           <span style={{ color: '#fff' }}>{movie?.Genre}</span>
         </Typography>
         <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
@@ -65,7 +65,7 @@ const MovieCardContent: React.FC<MovieContentProps> = ({ movie }) => {
           <span style={{ color: '#fff' }}>{movie?.Director}</span>
         </Typography>
         <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
-          <strong>Actors: </strong>
+          <strong>Actores: </strong>
           <span style={{ color: '#fff' }}>{movie?.Actors}</span>
         </Typography>
       </Grid>
