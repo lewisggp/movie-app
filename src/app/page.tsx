@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 // Types Imports
 import { OMDBSearchRequest } from '@/types/omdb/requestType';
-import { OMDBSearchResponse } from '@/types/omdb/responseType';
+import { OMDBMovieResponse } from '@/types/omdb/responseType';
 
 // API Imports
 import { searchMovies } from '@/services/omdb.api';
@@ -16,7 +16,7 @@ import { searchMovies } from '@/services/omdb.api';
 export default function Home() {
   // States
   const [error, setError] = useState<string | null>(null);
-  const [searchResults, setSearchResults] = useState<OMDBSearchResponse[]>([]);
+  const [searchResults, setSearchResults] = useState<OMDBMovieResponse[]>([]);
 
   useEffect(() => {
     const searchForMovies = async () => {
@@ -24,7 +24,7 @@ export default function Home() {
         const request: OMDBSearchRequest = { s: 'Guardians of the Galaxy' };
         const results = await searchMovies(request);
 
-        setSearchResults(results);
+        setSearchResults(results.Search);
       } catch (err) {
         setError('Failed to search for movies');
       }

@@ -6,10 +6,10 @@ import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 
 // Types Imports
-import type { OMDBSearchResponse } from '@/types/omdb/responseType';
+import type { OMDBMovieResponse } from '@/types/omdb/responseType';
 
 interface MovieCardProps {
-  movie: OMDBSearchResponse;
+  movie: OMDBMovieResponse;
   onClick?: (id: string) => void;
 }
 

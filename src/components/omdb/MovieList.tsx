@@ -10,13 +10,13 @@ import MovieCard from '@/components/omdb/MovieCard';
 import MovieDialog from '@/components/omdb/MovieDialog';
 
 // Types Imports
-import type { OMDBSearchResponse, OMDBTitleResponse } from '@/types/omdb/responseType';
+import type { OMDBMovieResponse, OMDBTitleResponse } from '@/types/omdb/responseType';
 
 // API Imports
 import { fetchMovie } from '@/services/omdb.api';
 
 interface ListProps {
-  searchResults: OMDBSearchResponse[];
+  searchResults: OMDBMovieResponse[];
 }
 
 export default function MovieList({ searchResults }: ListProps) {

@@ -47,11 +47,17 @@ export interface OMDBTitleResponse {
     Error?: string;
 }
 
-export interface OMDBSearchResponse {
+export interface OMDBMovieResponse {
     Title: string;
     Year: string;
     imdbID: string;
     Type: 'movie' | 'series' | 'episode';
     Poster: string;
+}
+
+export interface OMDBSearchResponse {
+    Search: OMDBMovieResponse[];
+    totalResults: string,
+    Response: string
 }
 

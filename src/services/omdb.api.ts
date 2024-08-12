@@ -67,14 +67,14 @@ export const fetchMovie = async (request: OMDBTitleRequest): Promise<OMDBTitleRe
   }
 };
 
-export const searchMovies = async (request: OMDBSearchRequest): Promise<OMDBSearchResponse[]> => {
+export const searchMovies = async (request: OMDBSearchRequest): Promise<OMDBSearchResponse> => {
   try {
-    const response = await api.get<{ Search: OMDBSearchResponse[] }>('/', { params: {
+    const response = await api.get<OMDBSearchResponse>('/', { params: {
       apiKey: `${process.env.OMDB_API_KEY}`,
       ...request 
     }});
 
-    return response.data.Search;
+    return response.data;
   } catch (error) {
     console.error('Error searching movies:', error);
     
