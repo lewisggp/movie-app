@@ -22,9 +22,9 @@ const MovieCardContent: React.FC<MovieContentProps> = ({ movie }) => {
   const textSecondary = (movie?: OMDBTitleResponse): string => {
     if (movie?.Type === 'series' && movie?.totalSeasons){
       if(movie?.totalSeasons && movie?.totalSeasons > 1) {
-        return `${movie?.totalSeasons} Seasons`
+        return `${movie?.totalSeasons} Temporadas`
       }
-      return `${movie?.totalSeasons} Season`
+      return `${movie?.totalSeasons} Temporada`
     }
     return movie?.Runtime && movie.Runtime != 'N/A' ? movie.Runtime : ''
   }

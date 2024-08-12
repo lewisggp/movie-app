@@ -82,7 +82,7 @@ const MovieSearch: React.FC = () => {
         onChange={(e) => setQuery(e.target.value)}
         sx={{ flexGrow: 1, maxWidth: 250, height: '56px' }}
       />
-      <FormControl variant="outlined" sx={{ minWidth: 90 }}>
+      <FormControl variant="outlined" sx={{ minWidth: 120 }}>
         <InputLabel>Género</InputLabel>
         <Select
           value={genre}
